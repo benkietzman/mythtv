@@ -201,9 +201,10 @@ bool PBHEventHandler::event(QEvent *e)
                 uint      recordingID   = list[0].toUInt();
                 bool      forceDelete   = list[1].toUInt() != 0U;
                 bool      forgetHistory = list[2].toUInt() != 0U;
+                bool      dupHistory    = list[3].toUInt() != 0U;
 
                 bool ok = RemoteDeleteRecording( recordingID, forceDelete,
-                                                 forgetHistory);
+                                                 forgetHistory, dupHistory);
 
                 QStringList &res = (ok) ? successes : failures;
                 for (uint i = 0; i < 3; i++)
@@ -373,12 +374,13 @@ void PlaybackBoxHelper::StopRecording(const ProgramInfo &pginfo)
 }
 
 void PlaybackBoxHelper::DeleteRecording( uint recordingID, bool forceDelete,
-                                         bool forgetHistory)
+                                         bool forgetHistory, bool dupHistory)
 {
     QStringList list;
     list.push_back(QString::number(recordingID));
     list.push_back((forceDelete)    ? "1" : "0");
     list.push_back((forgetHistory)  ? "1" : "0");
+    list.push_back((dupHistory)     ? "1" : "0");
     DeleteRecordings(list);
 }
 

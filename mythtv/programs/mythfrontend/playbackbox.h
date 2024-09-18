@@ -112,6 +112,7 @@ class PlaybackBox : public ScheduleCommon
         kForce         = 0x02,
         kIgnore        = 0x04,
         kAllRemaining  = 0x08,
+        kDupHistory    = 0x16,
     };
 
     enum killStateType
@@ -197,6 +198,7 @@ class PlaybackBox : public ScheduleCommon
     void Undelete(void);
     void Delete(PlaybackBox::DeleteFlags flags);
     void Delete() { Delete(kNoFlags); }
+    void DeleteDupHistory(void)         { Delete(kDupHistory); }
     void DeleteForgetHistory(void)      { Delete(kForgetHistory); }
     void DeleteForce(void)              { Delete(kForce);         }
     void DeleteIgnore(void)             { Delete(kIgnore);        }
@@ -316,7 +318,7 @@ class PlaybackBox : public ScheduleCommon
                                       const QString& recgroup = "NotLiveTV");
 
     void RemoveProgram(uint recordingID,
-                       bool forgetHistory, bool forceMetadataDelete);
+                       bool forgetHistory, bool dupHistory, bool forceMetadataDelete);
     void ShowDeletePopup(DeletePopupType type);
     static void ShowAvailabilityPopup(const ProgramInfo &pginfo);
     void ShowActionPopup(const ProgramInfo &pginfo);

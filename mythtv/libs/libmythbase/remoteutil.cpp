@@ -111,17 +111,18 @@ bool RemoteCheckFile(ProgramInfo *pginfo, bool checkSlaves)
 }
 
 bool RemoteDeleteRecording(uint recordingID, bool forceMetadataDelete,
-    bool forgetHistory)
+    bool forgetHistory, bool dupHistory)
 {
      // FIXME: Remove when DELETE_RECORDING has been updated to use recording id
     ProgramInfo recInfo(recordingID);
     bool result = true;
     QString cmd =
-        QString("DELETE_RECORDING %1 %2 %3 %4")
+        QString("DELETE_RECORDING %1 %2 %3 %4 %5")
         .arg(QString::number(recInfo.GetChanID()),
              recInfo.GetRecordingStartTime().toString(Qt::ISODate),
              forceMetadataDelete ? "FORCE" : "NO_FORCE",
-             forgetHistory ? "FORGET" : "NO_FORGET");
+             forgetHistory ? "FORGET" : "NO_FORGET",
+             dupHistory ? "DUP" : "NO_DUP");
     QStringList strlist(cmd);
 
     if ((!gCoreContext->SendReceiveStringList(strlist) || strlist.isEmpty()) ||

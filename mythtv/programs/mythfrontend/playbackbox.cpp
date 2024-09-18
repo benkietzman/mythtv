@@ -2456,7 +2456,7 @@ bool PlaybackBox::Play(
     return playCompleted;
 }
 
-void PlaybackBox::RemoveProgram( uint recordingID, bool forgetHistory,
+void PlaybackBox::RemoveProgram( uint recordingID, bool forgetHistory, bool dupHistory,
                                  bool forceMetadataDelete)
 {
     ProgramInfo *delItem = FindProgramInUILists(recordingID);
@@ -2479,7 +2479,7 @@ void PlaybackBox::RemoveProgram( uint recordingID, bool forgetHistory,
 
     delItem->SetAvailableStatus(asPendingDelete, "RemoveProgram");
     m_helper.DeleteRecording( delItem->GetRecordingID(),
-                              forceMetadataDelete, forgetHistory);
+                              forceMetadataDelete, forgetHistory, dupHistory);
 
     // if the item is in the current recording list UI then delete it.
     MythUIButtonListItem *uiItem =
@@ -2555,6 +2555,8 @@ void PlaybackBox::ShowDeletePopup(DeletePopupType type)
         case kDeleteRecording:
             m_popupMenu->AddItem(tr("Yes, delete it"),
                                  qOverload<>(&PlaybackBox::Delete), nullptr, defaultIsYes);
+            m_popupMenu->AddItem(tr("Yes, and never re-record"),
+                                 qOverload<>(&PlaybackBox::DeleteDupHistory), nullptr, defaultIsYes);
             break;
         case kForceDeleteRecording:
             m_popupMenu->AddItem(tr("Yes, delete it"),
@@ -3486,7 +3488,7 @@ void PlaybackBox::Delete(DeleteFlags flags)
         if (flags & kIgnore)
             continue;
 
-        RemoveProgram(recordingID, (flags & kForgetHistory) != 0, (flags & kForce) != 0);
+        RemoveProgram(recordingID, (flags & kForgetHistory) != 0, (flags & kDupHistory) != 0, (flags & kForce) != 0);
 
         if (!(flags & kAllRemaining))
             break;

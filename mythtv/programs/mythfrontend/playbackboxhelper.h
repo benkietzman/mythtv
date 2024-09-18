@@ -37,7 +37,7 @@ class PlaybackBoxHelper : public MThread
     void ForceFreeSpaceUpdate(void);
     void StopRecording(const ProgramInfo &pginfo);
     void DeleteRecording( uint recordingID, bool forceDelete,
-                          bool forgetHistory);
+                          bool forgetHistory, bool dupHistory);
     void DeleteRecordings(const QStringList &list);
     void UndeleteRecording(uint recordingID);
     void CheckAvailability(const ProgramInfo &pginfo,

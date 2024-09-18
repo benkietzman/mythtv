@@ -26,7 +26,7 @@ bool RemoteGetMemStats(int &totalMB, int &freeMB, int &totalVM, int &freeVM);
 MBASE_PUBLIC bool RemoteCheckFile(
     ProgramInfo *pginfo, bool checkSlaves = true);
 MBASE_PUBLIC bool RemoteDeleteRecording( uint recordingID, bool forceMetadataDelete,
-                                    bool forgetHistory);
+                                    bool forgetHistory, bool dupHistory);
 MBASE_PUBLIC
 bool RemoteUndeleteRecording(uint recordingID);
 MBASE_PUBLIC
