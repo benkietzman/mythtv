@@ -406,7 +406,7 @@ void StatusBox::customEvent(QEvent *event)
             if ((buttonnum == 0) && rec->QueryIsDeleteCandidate())
             {
                 if (!RemoteDeleteRecording(rec->GetRecordingID(),
-                                           false, false))
+                                           false, false, false))
                 {
                     LOG(VB_GENERAL, LOG_ERR, QString("Failed to delete recording: %1").arg(rec->GetTitle()));
                     return;
